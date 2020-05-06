@@ -1,59 +1,93 @@
-friends = ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun']
-
-
 
 module Enumerable
     def my_each
-        for friend in friends
-            yield(friend)
+        for item in self
+            yield(item)
         end
     end
 
-    def my_each_with_index
-        for friend_index in (0...friends.size)
-            yield(friends[friend_index], friend_index)
-        end
+  def my_each_with_index
+      for item_index in (0...self.size)
+            yield(self[item_index], item_index)
+      end
     end
 
-    def my_select
-        new_friends = []
-        for friend in my_each
-          new_friends.push(friend) if yield(friend)
+  def my_select
+        new_items = []
+        my_each do |item|
+          new_items.push(yield(item))
         end
-        puts new_friends
-    end
+        new_items
+  end
 
-    def my_all?
-        friends_exist = true
-        for friend in my_each
-            friends_exist = false if !yield(friend)
-        end
-        result
-    end
+  def my_all?
+    items_exist = true
+      my_each do |item|
+            friends_exist = false if !yield(item)
+      end
+  items_exist
+
+end
 
     def my_any?
-        any_friend = false
-        for friend in my_each
-            any_friend = true if yield(friend)
+        any_item = false
+        my_each do |item|
+            any_item = true if yield(item)
         end
-        result
+        any_item
     end
 
     def my_none?
-        friend_none = false
-        for friend in my_each
-            friend_none = true if !yield(friend)
+        item_none = false
+        my_each do |item|
+            item_none = true if !yield(item)
         end
-        friend_none
+        item_none
     end
 
     def my_count
         if block_given?
         count = 0
-        for friend in my_each
-            count+=1 if yield(friend)
+        my_each do |item|
+            count+=1 if yield(item)
         end
         count
     end
-  end
+
+
+    def my_map(&proc)
+        new_array = []
+              
+        for item_index in (0...self.size)
+            if block_given?
+                new_array.push(yield(self[item_index]))
+            else
+                new_array.push(proc.call(self[item_index]))
+            end
+        end
+        new_array
+    end
+
+    def my_inject(start = 0)
+       sum = start
+       for item_index in (0...self.size)
+            sum = yield(accumulator, self[item_index])
+       end
+       sum
+    end
+
+    def multiply_els
+    array.my_inject(1) { |x, y| x * y }
+    end
+
+end
+# testers 
+
+
+ ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun'].my_each { |friend| puts "Hello, " + friend }
+
+  ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun'].my_each_with_index { |friend, index| puts "Hello, " + friend + " " + index.to_s}
+
+   ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun'].my_select { |friend| puts "Hello, " + friend }
+
 end
