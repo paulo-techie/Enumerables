@@ -27,7 +27,7 @@ module Enumerable
     def my_all?
     items_exist = true
       my_each do |item|
-            friends_exist = false if !yield(item)
+            items_exist = false if !yield(item)
       end
     items_exist
     end
@@ -59,19 +59,16 @@ module Enumerable
 
 
     def my_map(&proc)
+        return self.size if !block_given?
+        return 
         new_array = []
-
-        for item_index in (0...self.size)
-            if block_given?
-                new_array.push(yield(self[item_index]))
-            else
-                new_array.push(proc.call(self[item_index]))
-            end
+        my_each do |item|
+            new_array.push(proc.call(item))
         end
         new_array
     end
 
-    def my_inject(start = 0)
+    def my_inject initial=nil
        sum = start
        for item_index in (0...self.size)
             sum = yield(sum, self[item_index])
@@ -80,7 +77,7 @@ module Enumerable
     end
 
     def multiply_els
-    array.my_inject(1) { |x, y| x * y }
+        array.my_inject { |sum, item| sum * item }
     end
 
 end
