@@ -6,28 +6,27 @@ module Enumerable
         end
     end
 
-  def my_each_with_index
+    def my_each_with_index
       for item_index in (0...self.size)
             yield(self[item_index], item_index)
       end
     end
 
-  def my_select
+    def my_select
         new_items = []
         my_each do |item|
-          new_items.push(yield(item))
+          new_items.push(item) if yield(item)
         end
         new_items
-  end
+    end
 
-  def my_all?
+    def my_all?
     items_exist = true
       my_each do |item|
             friends_exist = false if !yield(item)
       end
-  items_exist
-
-end
+    items_exist
+    end
 
     def my_any?
         any_item = false
@@ -57,7 +56,7 @@ end
 
     def my_map(&proc)
         new_array = []
-              
+
         for item_index in (0...self.size)
             if block_given?
                 new_array.push(yield(self[item_index]))
@@ -71,7 +70,7 @@ end
     def my_inject(start = 0)
        sum = start
        for item_index in (0...self.size)
-            sum = yield(accumulator, self[item_index])
+            sum = yield(sum, self[item_index])
        end
        sum
     end
@@ -81,7 +80,7 @@ end
     end
 
 end
-# testers 
+# testers
 
 
  ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun'].my_each { |friend| puts "Hello, " + friend }
