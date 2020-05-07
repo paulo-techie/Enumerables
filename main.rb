@@ -58,14 +58,10 @@ module Enumerable
         count
     end
 
-
     def my_map(&proc)
         return self.size if !block_given?
-        return 
         new_array = []
-        my_each do |item|
-            new_array.push(proc.call(item))
-        end
+        my_select { |item| new_array << proc.call(item)}
         new_array
     end
 
