@@ -1,23 +1,27 @@
 
 module Enumerable
+    
     def my_each
-        for item in self
-            yield(item)
-        end
+    return self.size if !block_given?
+    for item in self
+        yield(item)
     end
-
+    end
+    
     def my_each_with_index
-      for item_index in (0...self.size)
-            yield(self[item_index], item_index)
-      end
+    return self.size if !block_given?
+    for item_index in (0...self.size)
+        yield(self[item_index], item_index)
+    end
     end
 
     def my_select
-        new_items = []
-        my_each do |item|
-          new_items.push(item) if yield(item)
-        end
-        new_items
+    return self.size if !block_given?
+    new_items = []
+    my_each do |item|
+        new_items.push(item) if yield(item)
+    end
+    new_items
     end
 
     def my_all?
@@ -45,7 +49,7 @@ module Enumerable
     end
 
     def my_count
-        if block_given?
+        return self.size if !block_given?
         count = 0
         my_each do |item|
             count+=1 if yield(item)
