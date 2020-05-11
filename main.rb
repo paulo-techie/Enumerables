@@ -6,7 +6,7 @@ module Enumerable
       yield(item)
     end
   end
-    self
+    to_enum(:self)
   end
 
   def my_each_with_index
@@ -15,7 +15,7 @@ module Enumerable
       yield(self[item_index], item_index)
     end
   end
-    self
+    to_enum(:self)
   end
 
   def my_select
@@ -24,9 +24,9 @@ module Enumerable
     my_each do |item|
       new_items.push(item) if yield(item)
     end
-    new_items
+    return new_items
   end
-    self
+    to_enum(:self)
   end
 
   def my_all?
@@ -35,18 +35,7 @@ module Enumerable
       return false if item == nil 
       return false unless yield(item)
     end
-
     true
-  end
-
-
-  def my_count
-    return self.size if !block_given?
-    count = 0
-    my_select do |item|
-        count+=1 if yield(item)
-    end
-    count
   end
 
   def my_any?
@@ -61,11 +50,23 @@ module Enumerable
     result = true
     unless !block_given?
       my_each do |item|
-          result = false if yield(item)
+        return false if item == nil
+        result = false if yield(item)
       end
     end
-    return result
+    result
   end
+
+    
+  def my_count
+    return self.size if !block_given?
+    count = 0
+    my_select do |item|
+        count+=1 if yield(item)
+    end
+    count
+  end
+
 
   def my_map(&proc)
     return self.size if !block_given?
