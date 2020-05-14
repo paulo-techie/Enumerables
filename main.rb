@@ -29,21 +29,26 @@ module Enumerable
     to_enum(:self)
   end
 
-  def my_all?
-    return false if !block_given?
+  def my_all?(arg=false)
     my_each do |item|
-      return false if item == nil 
-      return false unless yield(item)
+      return false if (item == nil || item == false)
+      return false if (arg.class == String && !yield(item))
+      return false if (arg.class == Regexp && !(item =~ arg))
+      return false if ((arg.class == item.class) && (item != arg))
     end
     true
   end
 
-  def my_any?
-    result = false
+  def my_any?(arg=nil)
     my_each do |item|
-        result = true if yield(item)
+      next if ((arg==nil) && (item==false || item==nil))
+      return true if (block_given? && yield(item))
+      return true if (arg.class == Regexp && (item =~ arg))
+      return true if ((arg.class == item.class) && (item == arg))
+      return true if ((arg.class == Class) && (item.class == arg))  
+      return true if ((arg==nil) && !item.nil?)
     end
-    result
+    false
   end
 
   def my_none?
