@@ -1,57 +1,47 @@
-# Project Name
+# Enumerables
 
-> One paragraph statement about the project.
+> This is a ruby project to demonstrate enumerables by re-implementing them using the following methods in the enumerables module:
 
-![screenshot](./app_screenshot.png)
 
-Additional description about the project and its features.
+my_each
+my_each_with_index
+my_select
+my_all?
+my_none?
+my_count?
+my_map
+my_inject
+mulitiply_els
+my_map(&proc)
 
 ## Built With
 
-- Major languages,
-- frameworks,
-- technologies used
+- Ruby
 
-## Live Demo
-
-[Live Demo Link](https://livedemo.com)
 
 
 ## Getting Started
-
-**This is an example of how you may give instructions on setting up your project locally.**
-**Modify this file to match your project, remove sections that don't apply. For example: delete the testing section if the currect project doesn't require testing.**
 
 
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
-
-### Setup
-
-### Install
+ 
+install ruby
 
 ### Usage
 
-### Run tests
+Type the following in terminal:
 
-### Deployment
-
+ruby main.rb
 
 
 ## Authors
 
 👤 **Author1**
 
-- Github: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- Linkedin: [linkedin](https://linkedin.com/linkedinhandle)
+- Github: [@paulo-techie](https://github.com/paulo_techie)
 
-👤 **Author2**
-
-- Github: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- Linkedin: [linkedin](https://linkedin.com/linkedinhandle)
 
 ## 🤝 Contributing
 
