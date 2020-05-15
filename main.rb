@@ -51,30 +51,30 @@ module Enumerable
     false
   end
 
-  def my_none?
-    result = true
-    unless !block_given?
-      my_each do |item|
-        return false if item == nil
-        result = false if yield(item)
-      end
+  def my_none?(arg=false)
+    my_each do |item|
+      return false if ((arg==false) && !item.nil?)
+      next if (item == nil || item == false)
+      return false if (arg.class == String && yield(item))
+      return false if (arg.class == Regexp && (item =~ arg))
+      return false if ((arg.class == item.class) && (item == arg))
+      return false if ((arg.class == Class) && (item.class == arg)) 
     end
-    result
+    true
   end
 
-    
-  def my_count
-    return self.size if !block_given?
+  def my_count(*arg)
     count = 0
     my_select do |item|
-        count+=1 if yield(item)
+        count+=1 if block_given? && yield(item)
+        count+=1 if !block_given? && arg[0] == item
     end
     count
   end
 
 
   def my_map(&proc)
-    return self.size if !block_given?
+    return to_enum(:self) if !block_given?
     new_array = []
     my_select { |item| new_array << proc.call(item)}
     new_array
@@ -100,3 +100,4 @@ end
 def multiply_els (array)
   array.my_inject { |sum, item| sum * item }
 end
+
