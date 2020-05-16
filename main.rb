@@ -81,18 +81,19 @@ module Enumerable
   end
 
 
-  def my_inject initial=0
-      sum = initial
+  def my_inject (arg=0)
+      sum = arg
       item_index = 0
-       
-      sum = self[0] if initial ==0
-      item_index =1 if initial ==0
+      
+      sum = self[0] if arg==0
+      item_index =1 if arg==0
  
       for item_index in (item_index...self.size)
-            sum = yield(sum, self[item_index])
+            sum = yield(sum, self.to_a[item_index]) if self.class==Range
+            sum = yield(sum, self[item_index]) if self.class==Array
       end
       sum
-    
+      
   end
 
 end
@@ -100,4 +101,3 @@ end
 def multiply_els (array)
   array.my_inject { |sum, item| sum * item }
 end
-
