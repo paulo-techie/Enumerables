@@ -81,23 +81,37 @@ module Enumerable
   end
 
 
-  def my_inject (arg=0)
-      sum = arg
+  def my_inject (arg=0, *arg2)
+      sum=arg
+      sum=0 if arg.class==Symbol
+      
       item_index = 0
       
       sum = self[0] if arg==0
       item_index =1 if arg==0
  
       for item_index in (item_index...self.size)
-            sum = yield(sum, self.to_a[item_index]) if self.class==Range
-            sum = yield(sum, self[item_index]) if self.class==Array
+          
+        if arg2[0].class==Symbol
+              sum = sum.send(arg2[0], self.to_a[item_index]) if self.class==Range
+              sum = sum.send(arg2[0], self[item_index]) if self.class==Array
+            elsif arg.class==Symbol
+              sum = sum.send(arg, self.to_a[item_index]) if self.class==Range
+              sum = sum.send(arg, self[item_index]) if self.class==Array
+            else
+            sum = yield(sum, self.to_a[item_index]) if (self.class==Range && block_given?)
+            sum = yield(sum, self[item_index]) if (self.class==Array && block_given?)
+          end
       end
-      sum
-      
+
+      sum   
   end
+
+
 
 end
   
 def multiply_els (array)
   array.my_inject { |sum, item| sum * item }
 end
+
